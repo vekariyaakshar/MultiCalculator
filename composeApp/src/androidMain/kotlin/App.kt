@@ -13,6 +13,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 import multicalculator.composeapp.generated.resources.Res
 import multicalculator.composeapp.generated.resources.compose_multiplatform
+import com.example.myapp.Greeting // Ensure this matches the package name in Greeting.kt
 
 @Composable
 @Preview
@@ -33,3 +34,4 @@ fun App() {
         }
     }
 }
+
