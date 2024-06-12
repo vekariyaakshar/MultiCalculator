@@ -3,35 +3,33 @@ package org.multicalculator.project
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             App()
         }
     }
 }
 
-@Composable
-fun CalcView() {
-    val displayTextState = mutableStateOf("0")
+class CalculatorViewModel : ViewModel() {
+    val displayTextState: MutableState<String> = mutableStateOf("0")
+}
 
+@Composable
+fun CalcView(viewModel: CalculatorViewModel) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         color = Color.LightGray
@@ -43,24 +41,24 @@ fun CalcView() {
                 .background(Color.LightGray)
         ) {
             Row {
-                CalcDisplay(displayTextState)
+                CalcDisplay(viewModel.displayTextState)
             }
             Row {
                 Column {
-                    CalcOperationButton("+", displayTextState)
-                    CalcOperationButton("-", displayTextState)
+                    CalcOperationButton("+", viewModel.displayTextState)
+                    CalcOperationButton("-", viewModel.displayTextState)
                 }
                 Column {
-                    CalcOperationButton("*", displayTextState)
-                    CalcOperationButton("/", displayTextState)
+                    CalcOperationButton("*", viewModel.displayTextState)
+                    CalcOperationButton("/", viewModel.displayTextState)
                 }
             }
             for (i in 7 downTo 1 step 3) {
-                CalcRow(displayTextState, i, 3)
+                CalcRow(viewModel.displayTextState, i, 3)
             }
             Row {
-                CalcNumericButton(0, displayTextState)
-                CalcEqualsButton(displayTextState)
+                CalcNumericButton(0, viewModel.displayTextState)
+                CalcEqualsButton(viewModel.displayTextState)
             }
         }
     }
@@ -89,6 +87,7 @@ fun CalcDisplay(display: MutableState<String>) {
             .fillMaxWidth()
     )
 }
+
 @Composable
 fun CalcNumericButton(number: Int, display: MutableState<String>) {
     Surface(
@@ -147,7 +146,8 @@ fun TextButton(
 
 @Composable
 fun App() {
-    CalcView()
+    val viewModel: CalculatorViewModel = viewModel()
+    CalcView(viewModel)
 }
 
 @Preview
