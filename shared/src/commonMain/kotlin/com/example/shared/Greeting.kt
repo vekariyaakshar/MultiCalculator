@@ -5,4 +5,3 @@ class Greeting {
         return "Hello, World!"
     }
 }
-
