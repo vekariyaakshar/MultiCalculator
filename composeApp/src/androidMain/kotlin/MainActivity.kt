@@ -1,10 +1,19 @@
 package org.multicalculator.project
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import android.os.Bundle
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,23 +31,59 @@ fun CalcView() {
 }
 
 @Composable
-fun CalcRow() {
-    // Your UI code for a single row in the calculator view goes here
+fun CalcRow(display: MutableState<String>, startNum: Int, numButtons: Int) {
+    val endNum = startNum + numButtons
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(4.dp)
+    ) {
+        for (i in startNum until endNum) {
+            CalcNumericButton(i, display)
+        }
+    }
 }
 
 @Composable
-fun CalcDisplay() {
-    // Your UI code for the calculator display goes here
+fun CalcDisplay(display: MutableState<String>) {
+    Text(
+        text = display.value,
+        modifier = Modifier
+            .height(50.dp)
+            .padding(5.dp)
+            .fillMaxWidth()
+    )
 }
 
 @Composable
-fun CalcNumericButton() {
-    // Your UI code for numeric buttons in the calculator goes here
+fun CalcNumericButton(number: Int, display: MutableState<String>) {
+    Button(
+        onClick = { display.value += number.toString() },
+        modifier = Modifier.padding(4.dp)
+    ) {
+        Text(number.toString())
+    }
 }
 
 @Composable
-fun CalcOperationButton() {
-    // Your UI code for operation buttons in the calculator goes here
+fun CalcOperationButton(operation: String, display: MutableState<String>) {
+    Button(
+        onClick = { },
+        modifier = Modifier.padding(4.dp)
+    ) {
+        Text(operation)
+    }
+}
+
+@Composable
+fun CalcEqualsButton(display: MutableState<String>) {
+    Button(
+        onClick = { display.value = "0" },
+        modifier = Modifier.padding(4.dp)
+    ) {
+        Text("=")
+    }
 }
 
 @Composable
