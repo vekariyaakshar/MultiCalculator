@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.saveable.rememberSaveable
 
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,10 +47,9 @@ fun CalculatorContent(viewModel: CalculatorViewModel) {
     var operation by rememberSaveable { mutableStateOf("") }
     var complete by rememberSaveable { mutableStateOf(false) }
 
-    // Define the numberPress function with btnNum parameter
     val numberPress: (Int) -> Unit = { btnNum ->
         if (complete) {
-            // Reset variables when complete is true
+
             leftNumber = 0.0
             rightNumber = 0.0
             operation = ""
@@ -66,7 +66,6 @@ fun CalculatorContent(viewModel: CalculatorViewModel) {
         }
     }
 
-    // Define the empty functions
     val operationPress: (String) -> Unit = { op ->
         if (!complete) {
             operation = op
